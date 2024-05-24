@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         this.eatBigFood = function (bigFood) {
             if (
-                this.x >= bigFood.x && this.x < bigFood.x + scale * 2 &&
-                this.y >= bigFood.y && this.y < bigFood.y + scale * 2
+                this.x >= bigFood.x && this.x < bigFood.x + scale &&
+                this.y >= bigFood.y && this.y < bigFood.y + scale
             ) {
                 this.total += 1;
                 score += 5;
@@ -141,10 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         this.draw = function () {
-            ctx.fillStyle = "magenta";
+            ctx.fillStyle = "white";
             ctx.shadowBlur = 20;
-            ctx.shadowColor = "magenta";
-            ctx.fillRect(this.x, this.y, scale * 2, scale * 2);
+            ctx.shadowColor = "white";
+            ctx.fillRect(this.x, this.y, scale, scale);
             ctx.shadowBlur = 0;
         };
     }
