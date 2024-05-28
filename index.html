@@ -3,23 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake</title>
+    <title>Neo Snake</title>
+    <link rel="icon" href="resources/snake_favicon.jpg" type="image/png">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" href="resources/favicon.png" type="image/png">
+    <script>
+        function navigateToGame() {
+            window.location.href = "MainGame/mainGame.html";
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="wrapper">
-            <div id="replay">
-                <i class="fas fa-play"></i>
-            </div>
-            <div id="ui">
-                <span id="score">00</span>
-                <canvas id="canvas"></canvas>
-            </div>
-        </div>
-    </div>  
-    <script src="script.js"></script>
+<div class="header">
+    <h2><a href="https://www.linkedin.com/in/jmarquesgomes/" target="_blank" rel="noopener noreferrer">JOHNNY G</a></h2>
+   <div class="mid-spot" onclick="document.body.classList.toggle('gold');"></div>
+
+
+  
+    <div class="spotlight">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  
+  <canvas id="particleCanvas"></canvas>
+  
+  <div class="accent-lines">
+    <div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="heroSubP">
+    <p>Introducing</p>
+  </div>
+  <div class="hero">
+    <div class="heroT">
+      <h2>Neo Snake</h2>
+      <h2>Neo Snake</h2>
+    </div>
+  </div>
+  <p class="heroP">Slither and Conquer <br>
+    Do you have what it takes?</p>
+    
+  <div class="mountains">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="hero-spacer"></div>
+  
+  <div class="content-section">
+    <div class="content-acc">
+      <div></div>
+      <div></div>
+    </div>
+    <button class="contact-btn" onclick="navigateToGame()">
+        <span class="glow"></span>
+        <span class="contact-btn-content">Play Game</span>
+    </button>
+    <p class="subt">A SPIN ON A CLASSIC</p>
+    <h3 class="title">Thrilling. Addictive.<br>
+      Unmatched fun.</h3>
+    <p class="subp">    Move the snake using the arrow keys to eat the food and grow your tail.
+
+  </div>
+  <script src="script.js"></script>
+  
 </body>
 </html>
+
