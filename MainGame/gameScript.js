@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let bigFoodVisible = false;
     let bigFoodDisappearTimer;
     let barriers = [];
+    let lastBarrierScore = 0;
 
     function Snake() {
         this.x = canvas.width / 2;
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         this.ySpeed = 0;
         this.total = 0;
         this.tail = [];
+        this.score = 0;
 
         this.draw = function () {
             ctx.fillStyle = "white";
@@ -90,8 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
         this.eat = function (food) {
             if (this.x === food.x && this.y === food.y) {
                 this.total++;
-                score++;
+                this.score++;
+                score = this.score;
                 document.getElementById('score').textContent = score;
+                generateBarriers();
                 return true;
             }
             return false;
@@ -103,26 +107,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.y >= bigFood.y && this.y < bigFood.y + scale
             ) {
                 this.total += 1;
-                score += 5;
+                this.score += 5;
+                score = this.score;
                 document.getElementById('score').textContent = score;
+                generateBarriers();
                 return true;
             }
             return false;
         };
     }
 
-  
     function Food() {
         this.x;
         this.y;
         this.colorIndex = 0;
-    
+
         this.pickLocation = function () {
-            this.x = Math.floor(Math.random() * (canvas.width / scale)) * scale;
-            this.y = Math.floor(Math.random() * (canvas.height / scale)) * scale;
+            this.x = Math.floor(Math.random() * columns) * scale;
+            this.y = Math.floor(Math.random() * rows) * scale;
             this.colorIndex = (this.colorIndex + 1) % foodColors.length;
         };
-    
+
         this.draw = function () {
             ctx.fillStyle = foodColors[this.colorIndex];
             ctx.shadowBlur = 20;
@@ -131,16 +136,16 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.shadowBlur = 0;
         };
     }
-    
+
     function BigFood() {
         this.x;
         this.y;
-    
+
         this.pickLocation = function () {
-            this.x = Math.floor(Math.random() * (canvas.width / scale)) * scale;
-            this.y = Math.floor(Math.random() * (canvas.height / scale)) * scale;
+            this.x = Math.floor(Math.random() * columns) * scale;
+            this.y = Math.floor(Math.random() * rows) * scale;
         };
-    
+
         this.draw = function () {
             ctx.fillStyle = "white";
             ctx.shadowBlur = 20;
@@ -149,21 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.shadowBlur = 0;
         };
     }
-    
+
+
     function generateBarriers() {
-        const barrierCount = 5; // Number of barriers
-        const scoreIncrement = 50; // Score increment threshold for adding barriers
+        const barrierCount = 3; // Number of barriers
+        const scoreIncrement = 20; // Score increment threshold for adding barriers
     
-        // Check if the score is divisible by the score increment
-        if (snake.score % scoreIncrement === 0) {
-            // Add 5 barriers
+        // Only add barriers if the score surpasses the next threshold
+        if (score >= lastBarrierScore + scoreIncrement) {
+            lastBarrierScore += scoreIncrement; // Update the last score where barriers were added
+    
             for (let i = 0; i < barrierCount; i++) {
                 let barrier;
                 let overlap;
                 do {
                     overlap = false;
-                    const x = (Math.floor(Math.random() * (rows - 5)) + 1) * scale;
-                    const y = (Math.floor(Math.random() * (columns - 5)) + 1) * scale;
+                    const x = (Math.floor(Math.random() * (columns - 5)) + 1) * scale;
+                    const y = (Math.floor(Math.random() * (rows - 5)) + 1) * scale;
                     const width = scale * (Math.floor(Math.random() * 3) + 2);
                     const height = scale * (Math.floor(Math.random() * 3) + 2);
     
@@ -235,16 +242,19 @@ document.addEventListener('DOMContentLoaded', () => {
         snake.update();
         snake.draw();
 
-        if (score >= 50) {
+        if (score >= 20) {
             drawBarriers();
             if (checkCollisionWithBarriers(snake)) {
                 alert("Game Over!");
                 snake.total = 0;
                 snake.tail = [];
                 score = 0;
+                snake.score = 0;
                 document.getElementById('score').textContent = score;
                 barriers = [];
-                generateBarriers();
+                lastBarrierScore = 0; // Reset the barrier score tracker
+                food.pickLocation(); // Reset food location
+                bigFoodVisible = false; // Hide big food
             }
         }
 
@@ -266,9 +276,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 snake.total = 0;
                 snake.tail = [];
                 score = 0;
+                snake.score = 0;
                 document.getElementById('score').textContent = score;
                 barriers = [];
-                generateBarriers();
+                lastBarrierScore = 0; // Reset the barrier score tracker
+                food.pickLocation(); // Reset food location
+                bigFoodVisible = false; // Hide big food
             }
         }
 
@@ -289,5 +302,3 @@ document.addEventListener('DOMContentLoaded', () => {
     generateBarriers();
     update();
 });
-
-
